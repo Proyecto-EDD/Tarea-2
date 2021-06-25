@@ -4,9 +4,16 @@
 
 using namespace std;
 
+struct poli{    //struct polinomio para la diferenciacion de informacion
+    int M; //cantidad de datos monomios
+    int E; //exponente monomio
+    int C; //coeficiente
+};
+
 int LectorDatos(){
     ifstream fp;
-    int N,id;
+    int N;
+
     fp.open("entradaPolinomio.txt"); //en default se abre en texto{ASCII}
 
     if (!fp.is_open()) { //mensaje de error en caso de que no abra el archivo
@@ -14,13 +21,25 @@ int LectorDatos(){
         exit(1);
     }
 
-    fp >> N; //lee la cantidad de polinomios
-    cout << N << endl; //imprime la cantidad N de polinomios
+    poli pol;   //uso de struct
+    int x = 0;  //contador de posicion
 
-    while( fp >> id){ // lee completamente el archivo sin contar la cantidad de polinomios obviamente
-        cout << id << endl;
+    fp >> N; //lee la cantidad de polinomios
+    while(N > 0){   //mientras no se acaben los polinomios continua
+        fp >> pol.M;    //lee la primera linea despues de la cantidad de polinomios para conseguir M
+        int A [pol.M*2];    //crear el arreglo con la cantidad de datos necesarios
+        for(int i=0;i < pol.M;i++){ // lee los datos del monomio correspondiente
+            fp >> pol.E;    //lee el exponente
+            fp >> pol.C;    //lee el coeficiente
+            A[x] = pol.E;   //se añade el exponente al arreglo
+            x++;    //se mueve un espacio para añadir el coeficiente
+            A[x] = pol.C,   //se añade el coeficiente al arreglo
+            x++;    //se mueve un espacio para añadir el siguiente exponente si es que hay
+        }
+        //aqui se deberia colocar el comando para añadir el struct al tda
+        x = 0;  //reinicia el contador de posicion
+        N--;    //reduce la cantidad de polinomios restantes
     }
-    //encontrar la manera de crear una lista usando arreglos para despues procesar la data
     fp.close();
     return 0;
 }
